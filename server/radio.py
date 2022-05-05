@@ -1,6 +1,6 @@
 import json
 
-radio_details_2 = {'ip':'127.0.0.1', 'port':9633}
+radio_details_2 = {'ip':'224.1.1.1', 'port':9633}
 radio_details_none = {'ip':'', 'port':0}
 
 

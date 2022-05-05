@@ -1,17 +1,15 @@
+import struct
 import socket
-import threading, wave, pyaudio, time, queue
+import threading, pyaudio, time, queue
 
 # Initalzing the queue for storing audio data
 q = queue.Queue(maxsize=2000)
 
 
-def audio_stream_UDP(host_ip, port):
-    # Initalize the buffer size
-    BUFF_SIZE = 65536
-    
+def audio_stream_UDP(host_group, port_group):    
     # Initalize the UDP Socket
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, BUFF_SIZE)
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     
     # Initalize pyaudio for pre-processing audio
     p = pyaudio.PyAudio()
@@ -22,14 +20,14 @@ def audio_stream_UDP(host_ip, port):
                     output=True,
                     frames_per_buffer=CHUNK)
 
-    # Send message to UDP socket to get connection from server
-    message = b'Hello Radio'
-    client_socket.sendto(message, (host_ip, port))
+    client_socket.bind(("", port_group))
+    mreq = struct.pack("4sl", socket.inet_aton(host_group), socket.INADDR_ANY)
+    client_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     # Get data from server and add it to queue
     def getAudioData():
         while True:
-            frame, _ = client_socket.recvfrom(BUFF_SIZE)
+            frame = client_socket.recv(65536)
             q.put(frame)
             print('Queue size...', q.qsize())
 
