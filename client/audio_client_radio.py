@@ -32,8 +32,8 @@ def audio_stream_UDP(host_group, port_group):
             print('Queue size...', q.qsize())
 
     # Threading for perfomance improvement
-    t1 = threading.Thread(target=getAudioData, args=())
-    t1.start()
+    t2 = threading.Thread(target=getAudioData, args=())
+    t2.start()
     time.sleep(1)
     print('Now Playing...')
     
