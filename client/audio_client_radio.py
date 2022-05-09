@@ -1,4 +1,6 @@
+import os
 import struct
+import keyboard
 import socket
 import threading, pyaudio, time, queue
 
@@ -26,8 +28,12 @@ def audio_stream_UDP(host_group, port_group):
 
     # Get data from server and add it to queue
     def getAudioData():
-        while True:
-            frame = client_socket.recv(65536)
+        while True: 
+            # Get the data
+            try:
+                frame = client_socket.recv(65536)
+            except:
+                os._exit(1)
             q.put(frame)
             print('Queue size...', q.qsize())
 
@@ -39,9 +45,32 @@ def audio_stream_UDP(host_group, port_group):
     
     # For playing the audio add the data to pyaudio stream from queue
     while True:
+        try:
+            # Press for pause
+            if keyboard.is_pressed('P') or keyboard.is_pressed('p'):
+                
+                # Wait for restart
+                while True:
+
+                    # Press for restart
+                    if keyboard.is_pressed('R') or keyboard.is_pressed('r'):
+                            break
+
+                    # Press for close
+                    elif keyboard.is_pressed('X') or keyboard.is_pressed('x'):
+                            client_socket.close()
+            
+            # Press for close
+            elif keyboard.is_pressed('X') or keyboard.is_pressed('x'):
+                
+                # Close the client socket
+                try:
+                    client_socket.close()
+                except:
+                    os._exit(1)
+        
+        except:
+            continue 
+        
         frame = q.get()
         stream.write(frame)
-
-    client_socket.close()
-    print('Audio closed')
-    os._exit(1)

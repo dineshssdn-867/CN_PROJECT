@@ -9,7 +9,10 @@ def audio_stream_UDP(host_group, port_group, ttl):
     
     # Convert the data from chunks
     CHUNK = 10 * 1024
+    
+    # Iterator for songs playing
     iterator = 1
+    
     while True:
         song_name_current = 'main_radio_station_1_song_'+str(iterator)
         song_name_next = 'main_radio_station_1_song_'+str(iterator+1)
@@ -23,6 +26,7 @@ def audio_stream_UDP(host_group, port_group, ttl):
         # Frame rate setting
         sample_rate = wf.getframerate()
 
+        # Name of current and next song
         server_socket.sendto(str.encode("The current song is " + song_name_current),(host_group, port_group))
         server_socket.sendto(str.encode("The next song is" + song_name_next),(host_group, port_group))
         

@@ -51,9 +51,9 @@ def send_data(conn, s):
                 continue
             radio_select(select_choice, conn)
             if client_response == "Close":
+                conn.close()
+                s.close()
                 break
-        conn.close()
-        s.close()
         start_server()
     except KeyboardInterrupt:
         exit()
