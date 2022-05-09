@@ -40,7 +40,7 @@ def audio_stream_UDP(host_group, port_group, ttl, title_songs):
             # Next song
             if len(data) == 0:
                 iterator += 1
-                if iterator > 2:
+                if iterator > 1:
                     iterator = 1
                 break
             

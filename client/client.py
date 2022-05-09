@@ -38,6 +38,8 @@ def get_tcp_server_info_start_udp():
         host, port = radio_ip_details['ip'], radio_ip_details['port']
         s.send(str.encode("Close"))
 
+        print("You can press P key for pause, R key for restart and X key for closing the connection")
+
         # Start the Radio
         audio_stream_UDP(host, port)
 
