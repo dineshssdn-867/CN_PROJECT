@@ -2,7 +2,7 @@ import socket
 import wave, time
 
 
-def audio_stream_UDP(host_group, port_group, ttl):    
+def audio_stream_UDP(host_group, port_group, ttl, title_songs):    
     # Initalize the UDP Socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     server_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
@@ -14,8 +14,8 @@ def audio_stream_UDP(host_group, port_group, ttl):
     iterator = 1
     
     while True:
-        song_name_current = 'main_radio_station_1_song_'+str(iterator)
-        song_name_next = 'main_radio_station_1_song_'+str(iterator+1)
+        song_name_current = title_songs+str(iterator)
+        song_name_next = title_songs+str(iterator+1)
         
         # Pointer to the audio file
         wf = wave.open(song_name_current+'.wav')
@@ -37,6 +37,7 @@ def audio_stream_UDP(host_group, port_group, ttl):
             # Read data in chunks 
             data = wf.readframes(CHUNK)
 
+            # Next song
             if len(data) == 0:
                 iterator += 1
                 if iterator > 2:

@@ -51,6 +51,7 @@ def audio_stream_UDP(host_group, port_group):
                 
                 # Wait for restart
                 while True:
+                    q.get()
 
                     # Press for restart
                     if keyboard.is_pressed('R') or keyboard.is_pressed('r'):
