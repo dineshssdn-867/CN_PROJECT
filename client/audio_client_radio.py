@@ -69,7 +69,6 @@ def audio_stream_UDP(host_group, port_group):
                     client_socket.close()
                 except:
                     os._exit(1)
-        
         except:
             continue 
         
