@@ -12,6 +12,7 @@ port = 9633
 # Connect a Socket
 s.connect((host, port))
 data = s.recv(1024)
+
 # Get the input of radio
 def get_details_radio():
     choice = input("Please select the radio station: ")
@@ -53,6 +54,7 @@ while True:
             # Start the Radio
             t1 = threading.Thread(target=audio_stream_UDP, args=(host, port))
             t1.start()
+            
             break
         else:
             continue

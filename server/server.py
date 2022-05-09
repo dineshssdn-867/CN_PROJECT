@@ -6,9 +6,12 @@ HOST = '192.168.1.107'
 PORT = 9633
 
 Radio = """
-        1. Rj Khan
+        1. Rj Khan      
+            We are khan studios 
         2. Rj Desai
+            We are desai studios
         3. Rj Stepwell
+            We are stepwell studios
         
         Pls send channel numbers to listen the stream
 """
@@ -50,6 +53,8 @@ def send_data(conn, s):
             if client_response == "Close":
                 break
         conn.close()
+        s.close()
+        start_server()
     except KeyboardInterrupt:
         exit()
 
@@ -61,6 +66,9 @@ def socket_accept(s):
     send_data(conn, s)
 
 
-main_socket = create_socket()
-bind_socket(main_socket)
-socket_accept(main_socket)
+def start_server():
+    main_socket = create_socket()
+    bind_socket(main_socket)
+    socket_accept(main_socket)
+
+start_server()

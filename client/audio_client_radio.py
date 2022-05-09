@@ -21,7 +21,7 @@ def audio_stream_UDP(host_group, port_group):
                     frames_per_buffer=CHUNK)
 
     client_socket.bind(("", port_group))
-    mreq = struct.pack("4sl", socket.inet_aton(host_group), socket.INADDR_ANY)
+    mreq = struct.pack("=4sl", socket.inet_aton(host_group), socket.INADDR_ANY)
     client_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     # Get data from server and add it to queue
